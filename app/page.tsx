@@ -4,25 +4,16 @@ import Contact from "@/components/Contact";
 import Features from "@/components/Features";
 import Hero from "@/components/Hero";
 import Teams from "@/components/Team";
-import Video from "@/components/Video";
-import { Inter } from "@next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <>
+    <main className="min-h-screen bg-[#F7F9F5] text-[#141D14]">
       <ScrollUp />
       <Hero />
       <Features />
-      <Video />
-      {/* <Brands /> */}
       <AboutSectionOne />
-      {/* <AboutSectionTwo /> */}
       <Teams />
-      {/* <Pricing /> */}
-      {/* <Blog /> */}
       <Contact />
-    </>
+    </main>
   );
 }

@@ -1,10 +1,23 @@
-"use client";
-
+import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ScrollToTop from "@/components/ScrollToTop";
-import "node_modules/react-modal-video/css/modal-video.css";
 import "../styles/index.css";
+
+export const metadata: Metadata = {
+  title: "PFM Pulse • Inteligência Financeira & Engenharia Soroban",
+  description:
+    "Clareza financeira diária com zero complexidade de planilhas. Gestão financeira pessoal e governança enterprise projetadas pela Soroban.",
+  openGraph: {
+    title: "PFM Pulse • Inteligência Financeira & Engenharia Soroban",
+    description:
+      "Clareza financeira diária com zero complexidade de planilhas. Ritmo diário, auditoria de faturas via IA e conformidade integral LGPD.",
+    url: "https://sorobanerp.com.br",
+    siteName: "Soroban & PFM Pulse",
+    locale: "pt_BR",
+    type: "website",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -12,23 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
-
-      <body className="dark:bg-black">
-        <Providers>
-          <Header />
-          {children}
-          <Footer />
-          <ScrollToTop />
-        </Providers>
+    <html lang="pt-BR" className="scroll-smooth">
+      <body className="bg-[#F7F9F5] text-[#141D14] antialiased">
+        <Header />
+        {children}
+        <Footer />
+        <ScrollToTop />
       </body>
     </html>
   );
 }
-
-import { Providers } from "./providers";

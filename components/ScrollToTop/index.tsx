@@ -1,10 +1,11 @@
+"use client";
+
 import { useEffect, useState } from "react";
+import { ArrowUp } from "lucide-react";
 
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
 
-  // Top: 0 takes us all the way back to the top of the page
-  // Behavior: smooth keeps it smooth!
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -13,30 +14,24 @@ export default function ScrollToTop() {
   };
 
   useEffect(() => {
-    // Button is displayed after scrolling for 500 pixels
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setIsVisible(window.scrollY > 300);
     };
-
-    window.addEventListener("scroll", toggleVisibility);
-
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
   return (
-    <div className="fixed bottom-8 right-8 z-[99]">
+    <div className="fixed bottom-6 right-6 z-50">
       {isVisible && (
-        <div
+        <button
+          type="button"
           onClick={scrollToTop}
-          aria-label="scroll to top"
-          className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-md bg-primary text-white shadow-md transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+          aria-label="Voltar ao topo"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-[#E6ECE2] bg-[#141D14] text-[#DEFF8B] shadow-pulse transition-all duration-200 hover:bg-[#8CBA51] hover:text-[#141D14]"
         >
-          <span className="mt-[6px] h-3 w-3 rotate-45 border-t border-l border-white"></span>
-        </div>
+          <ArrowUp className="h-5 w-5" />
+        </button>
       )}
     </div>
   );

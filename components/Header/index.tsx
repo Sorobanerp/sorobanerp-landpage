@@ -1,176 +1,110 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import ThemeToggler from "./ThemeToggler";
+import { ArrowUpRight, Menu as MenuIcon, X } from "lucide-react";
 import menuData from "./menuData";
 
 const Header = () => {
-  // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const navbarToggleHandler = () => {
-    setNavbarOpen(!navbarOpen);
-  };
-
-  // Sticky Navbar
   const [sticky, setSticky] = useState(false);
-  const handleStickyNavbar = () => {
-    if (window.scrollY >= 80) {
-      setSticky(true);
-    } else {
-      setSticky(false);
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", handleStickyNavbar);
-  });
 
-  // submenu handler
-  const [openIndex, setOpenIndex] = useState(-1);
-  const handleSubmenu = (index) => {
-    if (openIndex === index) {
-      setOpenIndex(-1);
-    } else {
-      setOpenIndex(index);
-    }
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setSticky(window.scrollY >= 24);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <>
-      <header
-        className={`header top-0 left-0 z-40 flex w-full items-center bg-transparent ${
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-3 sm:px-6 lg:px-8">
+      <div
+        className={`mx-auto max-w-[1320px] rounded-full transition-all duration-300 ${
           sticky
-            ? "!fixed !z-[9999] !bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm !transition dark:!bg-primary dark:!bg-opacity-20"
-            : "absolute"
+            ? "border border-[#E6ECE2] bg-white/85 px-5 py-3 shadow-pulse backdrop-blur-md"
+            : "border border-[#E6ECE2]/80 bg-white/75 px-6 py-3.5 backdrop-blur-md"
         }`}
       >
-        <div className="container">
-          <div className="relative -mx-4 flex items-center justify-between">
-            <div className="w-60 max-w-full px-4 xl:mr-12">
+        <div className="flex items-center justify-between">
+          {/* Original Soroban Logo Preserved Intact */}
+          <Link href="/" className="flex items-center focus:outline-none">
+            <Image
+              src="/images/logo/logo-2.svg"
+              alt="Soroban ERP & PFM Pulse Logo"
+              width={138}
+              height={32}
+              priority
+              className="h-8 w-auto"
+            />
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden items-center space-x-8 lg:flex" aria-label="Navegação Principal">
+            {menuData.map((item) => (
               <Link
-                href="/"
-                className={`header-logo block w-full ${
-                  sticky ? "py-5 lg:py-2" : "py-8"
-                } `}
+                key={item.id}
+                href={item.path || "/"}
+                className="text-sm font-semibold text-[#141D14]/80 transition-colors duration-200 hover:text-[#141D14]"
               >
-                <Image
-                  src="/images/logo/logo-2.svg"
-                  alt="logo"
-                  width={140}
-                  height={30}
-                  className="w-full dark:hidden"
-                />
-                <Image
-                  src="/images/logo/logo.svg"
-                  alt="logo"
-                  width={140}
-                  height={30}
-                  className="hidden w-full dark:block"
-                />
+                {item.title}
               </Link>
-            </div>
-            <div className="flex w-full items-center justify-between px-4">
-              <div>
-                <button
-                  onClick={navbarToggleHandler}
-                  id="navbarToggler"
-                  aria-label="Mobile Menu"
-                  className="absolute right-4 top-1/2 block translate-y-[-50%] rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
-                >
-                  <span
-                    className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                      navbarOpen ? " top-[7px] rotate-45" : " "
-                    }`}
-                  />
-                  <span
-                    className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                      navbarOpen ? "opacity-0 " : " "
-                    }`}
-                  />
-                  <span
-                    className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                      navbarOpen ? " top-[-8px] -rotate-45" : " "
-                    }`}
-                  />
-                </button>
-                <nav
-                  id="navbarCollapse"
-                  className={`navbar absolute right-0 z-30 w-[250px] rounded border-[.5px] border-body-color/50 bg-white py-4 px-6 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 ${
-                    navbarOpen
-                      ? "visibility top-full opacity-100"
-                      : "invisible top-[120%] opacity-0"
-                  }`}
-                >
-                  <ul className="block lg:flex lg:space-x-12">
-                    {menuData.map((menuItem, index) => (
-                      <li key={menuItem.id} className="group relative">
-                        {menuItem.path ? (
-                          <Link
-                            href={menuItem.path}
-                            className={`flex py-2 text-base text-dark group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:py-6 lg:px-0`}
-                          >
-                            {menuItem.title}
-                          </Link>
-                        ) : (
-                          <>
-                            <a
-                              onClick={() => handleSubmenu(index)}
-                              className="flex cursor-pointer items-center justify-between py-2 text-base text-dark group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:py-6 lg:px-0"
-                            >
-                              {menuItem.title}
-                              <span className="pl-3">
-                                <svg width="15" height="14" viewBox="0 0 15 14">
-                                  <path
-                                    d="M7.81602 9.97495C7.68477 9.97495 7.57539 9.9312 7.46602 9.8437L2.43477 4.89995C2.23789 4.70308 2.23789 4.39683 2.43477 4.19995C2.63164 4.00308 2.93789 4.00308 3.13477 4.19995L7.81602 8.77183L12.4973 4.1562C12.6941 3.95933 13.0004 3.95933 13.1973 4.1562C13.3941 4.35308 13.3941 4.65933 13.1973 4.8562L8.16601 9.79995C8.05664 9.90933 7.94727 9.97495 7.81602 9.97495Z"
-                                    fill="currentColor"
-                                  />
-                                </svg>
-                              </span>
-                            </a>
-                            <div
-                              className={`submenu relative top-full left-0 rounded-md bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
-                                openIndex === index ? "block" : "hidden"
-                              }`}
-                            >
-                              {menuItem.submenu.map((submenuItem) => (
-                                <Link
-                                  href={submenuItem.path}
-                                  key={submenuItem.id}
-                                  className="block rounded py-2.5 text-sm text-dark hover:opacity-70 dark:text-white lg:px-3"
-                                >
-                                  {submenuItem.title}
-                                </Link>
-                              ))}
-                            </div>
-                          </>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </div>
-              <div className="flex items-center justify-end pr-16 lg:pr-0">
-                {/* <Link
-                  href="/signin"
-                  className="hidden py-3 px-7 text-base font-bold text-dark hover:opacity-70 dark:text-white md:block"
-                >
-                  Entrar
-                </Link>
-                <Link
-                  href="/signup"
-                  className="ease-in-up hidden rounded-md bg-primary py-3 px-8 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-9 lg:px-6 xl:px-9"
-                >
-                  Inscreva-se
-                </Link> */}
-                <div>
-                  <ThemeToggler />
-                </div>
-              </div>
-            </div>
+            ))}
+          </nav>
+
+          {/* Primary CTA Button (#8CBA51) */}
+          <div className="hidden items-center space-x-3 lg:flex">
+            <Link
+              href="/#produto"
+              className="group inline-flex items-center gap-2 rounded-full bg-[#8CBA51] px-5 py-2.5 text-sm font-bold text-[#141D14] shadow-sm transition-all duration-200 hover:bg-[#7AA842] hover:shadow-md"
+            >
+              <span>Explorar PFM Pulse</span>
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
           </div>
+
+          {/* Mobile Menu Trigger */}
+          <button
+            type="button"
+            onClick={() => setNavbarOpen((prev) => !prev)}
+            aria-label="Abrir Menu de Navegação"
+            className="inline-flex items-center justify-center rounded-full border border-[#E6ECE2] bg-white p-2.5 text-[#141D14] lg:hidden"
+          >
+            {navbarOpen ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
+          </button>
         </div>
-      </header>
-    </>
+
+        {/* Mobile Drawer */}
+        {navbarOpen && (
+          <div className="mt-3 rounded-3xl border border-[#E6ECE2] bg-white p-5 shadow-pulse lg:hidden">
+            <ul className="flex flex-col space-y-3">
+              {menuData.map((item) => (
+                <li key={item.id}>
+                  <Link
+                    href={item.path || "/"}
+                    onClick={() => setNavbarOpen(false)}
+                    className="block rounded-xl px-3 py-2 text-base font-semibold text-[#141D14] hover:bg-[#F7F9F5]"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+              <li className="pt-2">
+                <Link
+                  href="/#produto"
+                  onClick={() => setNavbarOpen(false)}
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-[#8CBA51] px-5 py-3 text-sm font-bold text-[#141D14]"
+                >
+                  <span>Explorar PFM Pulse</span>
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
+    </header>
   );
 };
 
