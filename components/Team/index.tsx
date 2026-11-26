@@ -1,165 +1,105 @@
-import { Team } from "@/types/team";
-import SectionTitle from "../Common/SectionTitle";
-import SingleTeam from "./SingleTeam";
+"use client";
 
-const teamData: Team[] = [
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Award, CloudCog, Cpu, Layers } from "lucide-react";
+
+const founderHighlights = [
   {
-    id: 1,
-    name: "Adriano Erik Weiguert Nagasava",
-    content:"Profissional da área de TI com bacharelado em Ciências da Computação. Possui mais de 18 anos de experiência no mercado, atuando em empresas de médio e grande porte.",
-    image: "/images/testimonials/auth-01.png"
+    icon: Layers,
+    label: "Arquitetura Hexagonal & Sistemas Críticos",
+    detail: "Java 25 LTS, Go, Python e motores contábeis de partidas dobradas",
   },
   {
-    id: 2,
-    name: "Francisco Claudeilton Dantas",
-    content:"Profissional da área de TI com bacharelado em Ciências da Computação, atua como Desenvolvedor Web com arquiteturas de software diversas.",
-    image: "/images/testimonials/auth-02.png"
-  }
+    icon: CloudCog,
+    label: "Cloud FinOps & Multi-Cloud",
+    detail: "Infraestrutura enxuta OpenTofu, Kubernetes, ECS Fargate Spot e Serverless",
+  },
+  {
+    icon: Cpu,
+    label: "Produtos Orientados à Eficiência & IA",
+    detail: "Pipelines determinísticos + LLMs estruturados com governança LGPD",
+  },
 ];
 
 const Teams = () => {
   return (
-    <section className="relative z-10 bg-primary/[.03] py-16 md:py-20 lg:py-28">
+    <section id="fundador" className="bg-[#F7F9F5] py-20 md:py-28">
       <div className="container">
-        <SectionTitle
-          title="Equipe"
-          paragraph="Uma experiente equipe de desenvolvimento de software está pronta para contribuir com seu projeto. Os profissionais de nossas equipes trabalham juntos há muitos anos em diversos clientes de médio e grande porte."
-          center
-        />
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-12 text-center">
+            <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-[#DEFF8B] px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[#141D14]">
+              <Award className="h-3.5 w-3.5" />
+              Liderança Técnica &amp; Visão de Produto
+            </span>
+            <h2 className="text-3xl font-extrabold tracking-tight text-[#141D14] sm:text-4xl">
+              Engenharia de Software com DNA de Eficiência
+            </h2>
+          </div>
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-          {teamData.map((team) => (
-            <SingleTeam key={team.id} team={team} />
-          ))}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="overflow-hidden rounded-[24px] border border-[#E6ECE2] bg-white p-8 shadow-pulse sm:p-11"
+          >
+            <div className="flex flex-col items-start gap-8 md:flex-row md:items-center">
+              <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-3xl border-2 border-[#8CBA51] bg-[#F7F9F5]">
+                <Image
+                  src="/images/testimonials/auth-02.png"
+                  alt="Dantas — Founder & Principal Software Architect"
+                  fill
+                  sizes="112px"
+                  className="object-cover"
+                />
+              </div>
+
+              <div>
+                <div className="mb-2 flex flex-wrap items-center gap-2.5">
+                  <span className="rounded-full bg-[#DEFF8B] px-3 py-1 text-xs font-bold text-[#141D14]">
+                    Founder &amp; Principal Software Architect
+                  </span>
+                  <span className="rounded-full border border-[#E6ECE2] bg-[#F7F9F5] px-3 py-1 font-mono text-xs font-semibold text-[#4D5E4D]">
+                    Soroban • PFM Pulse
+                  </span>
+                </div>
+
+                <h3 className="text-2xl font-extrabold tracking-tight text-[#141D14] sm:text-3xl">
+                  Francisco Claudeilton Dantas (Dantas)
+                </h3>
+                <p className="mt-3 text-base font-medium leading-relaxed text-[#4D5E4D]">
+                  Bacharel em Ciência da Computação e Arquiteto de Software Principal à frente da{" "}
+                  <strong className="font-semibold text-[#141D14]">Soroban</strong> e do{" "}
+                  <strong className="font-semibold text-[#141D14]">PFM Pulse</strong>. Especialista
+                  no desenho de arquiteturas distribuídas de alta resiliência, engenharia Cloud
+                  FinOps e plataformas financeiras focadas em simplicidade operacional e ganho real
+                  de eficiência para pessoas e empresas.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 grid grid-cols-1 gap-4 border-t border-[#E6ECE2] pt-8 md:grid-cols-3">
+              {founderHighlights.map((item) => {
+                const IconComponent = item.icon;
+                return (
+                  <div
+                    key={item.label}
+                    className="rounded-2xl border border-[#E6ECE2] bg-[#F7F9F5] p-4"
+                  >
+                    <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[#DEFF8B] text-[#141D14]">
+                      <IconComponent className="h-4 w-4" />
+                    </div>
+                    <h4 className="text-sm font-bold text-[#141D14]">{item.label}</h4>
+                    <p className="mt-1 text-xs font-medium leading-relaxed text-[#4D5E4D]">
+                      {item.detail}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
         </div>
-      </div>
-      <div className="absolute top-5 right-0 z-[-1]">
-        <svg
-          width="238"
-          height="531"
-          viewBox="0 0 238 531"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            opacity="0.3"
-            x="422.819"
-            y="-70.8145"
-            width="196"
-            height="541.607"
-            rx="2"
-            transform="rotate(51.2997 422.819 -70.8145)"
-            fill="url(#paint0_linear_83:2)"
-          />
-          <rect
-            opacity="0.3"
-            x="426.568"
-            y="144.886"
-            width="59.7544"
-            height="541.607"
-            rx="2"
-            transform="rotate(51.2997 426.568 144.886)"
-            fill="url(#paint1_linear_83:2)"
-          />
-          <defs>
-            <linearGradient
-              id="paint0_linear_83:2"
-              x1="517.152"
-              y1="-251.373"
-              x2="517.152"
-              y2="459.865"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" />
-              <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-            </linearGradient>
-            <linearGradient
-              id="paint1_linear_83:2"
-              x1="455.327"
-              y1="-35.673"
-              x2="455.327"
-              y2="675.565"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" />
-              <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-      <div className="absolute left-0 bottom-5 z-[-1]">
-        <svg
-          width="279"
-          height="106"
-          viewBox="0 0 279 106"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g opacity="0.5">
-            <path
-              d="M-57 12L50.0728 74.8548C55.5501 79.0219 70.8513 85.7589 88.2373 79.3692C109.97 71.3821 116.861 60.9642 156.615 63.7423C178.778 65.291 195.31 69.2985 205.911 62.3533C216.513 55.408 224.994 47.7682 243.016 49.1572C255.835 50.1453 265.278 50.8936 278 45.3373"
-              stroke="url(#paint0_linear_72:302)"
-            />
-            <path
-              d="M-57 1L50.0728 63.8548C55.5501 68.0219 70.8513 74.7589 88.2373 68.3692C109.97 60.3821 116.861 49.9642 156.615 52.7423C178.778 54.291 195.31 58.2985 205.911 51.3533C216.513 44.408 224.994 36.7682 243.016 38.1572C255.835 39.1453 265.278 39.8936 278 34.3373"
-              stroke="url(#paint1_linear_72:302)"
-            />
-            <path
-              d="M-57 23L50.0728 85.8548C55.5501 90.0219 70.8513 96.7589 88.2373 90.3692C109.97 82.3821 116.861 71.9642 156.615 74.7423C178.778 76.291 195.31 80.2985 205.911 73.3533C216.513 66.408 224.994 58.7682 243.016 60.1572C255.835 61.1453 265.278 61.8936 278 56.3373"
-              stroke="url(#paint2_linear_72:302)"
-            />
-            <path
-              d="M-57 35L50.0728 97.8548C55.5501 102.022 70.8513 108.759 88.2373 102.369C109.97 94.3821 116.861 83.9642 156.615 86.7423C178.778 88.291 195.31 92.2985 205.911 85.3533C216.513 78.408 224.994 70.7682 243.016 72.1572C255.835 73.1453 265.278 73.8936 278 68.3373"
-              stroke="url(#paint3_linear_72:302)"
-            />
-          </g>
-          <defs>
-            <linearGradient
-              id="paint0_linear_72:302"
-              x1="256.267"
-              y1="53.6717"
-              x2="-40.8688"
-              y2="8.15715"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-            <linearGradient
-              id="paint1_linear_72:302"
-              x1="256.267"
-              y1="42.6717"
-              x2="-40.8688"
-              y2="-2.84285"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-            <linearGradient
-              id="paint2_linear_72:302"
-              x1="256.267"
-              y1="64.6717"
-              x2="-40.8688"
-              y2="19.1572"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-            <linearGradient
-              id="paint3_linear_72:302"
-              x1="256.267"
-              y1="76.6717"
-              x2="-40.8688"
-              y2="31.1572"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-          </defs>
-        </svg>
       </div>
     </section>
   );

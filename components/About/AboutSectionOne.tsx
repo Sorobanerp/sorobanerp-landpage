@@ -1,68 +1,97 @@
-import Image from "next/image";
-import SectionTitle from "../Common/SectionTitle";
+"use client";
 
-const checkIcon = (
-  <svg width="16" height="13" viewBox="0 0 16 13" className="fill-current">
-    <path d="M5.8535 12.6631C5.65824 12.8584 5.34166 12.8584 5.1464 12.6631L0.678505 8.1952C0.483242 7.99994 0.483242 7.68336 0.678505 7.4881L2.32921 5.83739C2.52467 5.64193 2.84166 5.64216 3.03684 5.83791L5.14622 7.95354C5.34147 8.14936 5.65859 8.14952 5.85403 7.95388L13.3797 0.420561C13.575 0.22513 13.8917 0.225051 14.087 0.420383L15.7381 2.07143C15.9333 2.26669 15.9333 2.58327 15.7381 2.77854L5.8535 12.6631Z" />
-  </svg>
-);
+import { motion } from "framer-motion";
+import {
+  Database,
+  FileKey2,
+  Lock,
+  Scale,
+  ShieldCheck,
+} from "lucide-react";
+
+const enterprisePillars = [
+  {
+    icon: Database,
+    tag: "PostgreSQL 16 FORCE RLS",
+    title: "Isolamento Multi-Tenant (Row-Level Security)",
+    description:
+      "Cada transação e regra orçamentária é blindada diretamente no motor do banco de dados via políticas FORCE ROW LEVEL SECURITY por sessão criptográfica.",
+  },
+  {
+    icon: FileKey2,
+    tag: "AWS KMS + AES-256-GCM",
+    title: "Criptografia de Ponta a Ponta (KMS Envelope Encryption)",
+    description:
+      "Chaves de dados exclusivas por tenant (DEK) envelopadas pela Master Key no AWS KMS, garantindo sigilo bancário em trânsito e em repouso.",
+  },
+  {
+    icon: Lock,
+    tag: "SHA-256 Hash-Chained",
+    title: "Trilha de Auditoria Imutável (Append-Only)",
+    description:
+      "Registro contábil de partidas dobradas e log de auditoria append-only bloqueado contra UPDATE ou DELETE por triggers nativas de integridade.",
+  },
+  {
+    icon: Scale,
+    tag: "Art. 18 LGPD • Crypto-Shredding",
+    title: "Conformidade Integral LGPD (Lei 13.709/2018)",
+    description:
+      "Direito ao esquecimento instantâneo via destruição criptográfica de chaves (Crypto-Shredding), portabilidade JSON/CSV e zero PII em telemetria OpenTelemetry.",
+  },
+];
 
 const AboutSectionOne = () => {
-  const List = ({ text }) => (
-    <p className="mb-5 flex items-center text-lg font-medium text-body-color">
-      <span className="mr-4 flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary bg-opacity-10 text-primary">
-        {checkIcon}
-      </span>
-      {text}
-    </p>
-  );
-
   return (
-    <section id="about" className="pt-16 md:pt-20 lg:pt-28">
-      <div className="container">
-        <div className="border-b border-body-color/[.15] pb-16 dark:border-white/[.15] md:pb-20 lg:pb-28">
-          <div className="-mx-4 flex flex-wrap items-center">
-            <div className="w-full px-4 lg:w-1/2">
-              <SectionTitle
-                title="Criado para evolução de negócios com SaaS."
-                paragraph="A nossa solução vai permitir:"
-                mb="44px"
-              />
+    <section
+      id="seguranca-enterprise"
+      className="relative overflow-hidden bg-[#141D14] py-20 text-white md:py-28"
+    >
+      <div className="container relative z-10">
+        <div className="mx-auto mb-14 max-w-3xl text-center">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#DEFF8B] px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#141D14]">
+            <ShieldCheck className="h-4 w-4 text-[#141D14]" />
+            Segurança Enterprise &amp; Governança Bancária
+          </span>
+          <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-[2.65rem]">
+            Arquitetura Zero-Trust para{" "}
+            <span className="text-[#DEFF8B]">Grandes Empresas e Executivos.</span>
+          </h2>
+          <p className="text-base font-medium leading-relaxed text-[#D4E0D2] sm:text-lg">
+            Construído sobre os mesmos padrões de governança exigidos por instituições
+            financeiras: isolamento rígido de dados, criptografia por envelope e conformidade
+            auditável com a <strong className="text-white">LGPD (Lei 13.709/2018)</strong>.
+          </p>
+        </div>
 
-              <div
-                className="wow fadeInUp mb-12 max-w-[570px] lg:mb-0"
-                data-wow-delay=".15s"
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {enterprisePillars.map((pillar, idx) => {
+            const IconComponent = pillar.icon;
+            return (
+              <motion.div
+                key={pillar.title}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: idx * 0.08 }}
+                className="rounded-[24px] border border-[#283828] bg-[#1B271B] p-7 transition-all duration-300 hover:border-[#8CBA51] sm:p-8"
               >
-                <div className="mx-[-12px] flex flex-wrap">
-                  <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                    <List text="Cadastros" />
-                    <List text="Controles" />
-                    <List text="Dashboards ricos" />
+                <div className="mb-5 flex items-center justify-between">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#8CBA51]/20 text-[#DEFF8B]">
+                    <IconComponent className="h-6 w-6" />
                   </div>
-
-                  <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                    <List text="Relatórios" />
-                    <List text="Alertas e notificações" />
-                    <List text="Interface Amigável" />
-                  </div>
+                  <span className="rounded-full border border-[#8CBA51]/40 bg-[#141D14] px-3 py-1 font-mono text-xs font-semibold text-[#DEFF8B]">
+                    {pillar.tag}
+                  </span>
                 </div>
-              </div>
-            </div>
-
-            <div className="w-full px-4 lg:w-1/2">
-              <div
-                className="wow fadeInUp relative mx-auto aspect-[25/24] max-w-[500px] lg:mr-0"
-                data-wow-delay=".2s"
-              >
-                <Image
-                  src="/images/about/about-image.svg"
-                  alt="about-image"
-                  fill
-                  className="mx-auto max-w-full lg:mr-0"
-                />
-              </div>
-            </div>
-          </div>
+                <h3 className="mb-2.5 text-xl font-extrabold text-white">
+                  {pillar.title}
+                </h3>
+                <p className="text-sm font-medium leading-relaxed text-[#C6D4C4] sm:text-base">
+                  {pillar.description}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
